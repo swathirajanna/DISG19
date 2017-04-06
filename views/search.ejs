@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+	<title>Music Recommendation System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body { padding-right:80px;
+padding-left:80px;
+ }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class='page-header'>
+	  <div class='btn-toolbar pull-right'>
+	    <div class='btn-group'>
+	    <a href="/logout" class="btn btn-default"></span>Logout</a>
+	    </div>
+	  </div>
+	  <h2>  Music Recommendation System</h2>
+	</div>
+	<div class="page-header text-center">
+		<h1>Search</h1>
+	</div>
+            <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% } %>
+
+            <form action="/search" method="post">
+                <div class="form-group">
+                    <label>Search term</label>
+                    <input type="text" class="form-control" name="query">
+                </div>
+                <div class="form-group">
+                    <label>Table</label>
+			 <select name="tag">
+			  <option value="Artist">Artists</option>
+			  <option value="Album">Albums</option>
+			  <option value="Track">Tracks</option>
+			</select>
+                </div>
+                <button type="submit" class="btn btn-warning btn-lg">Search</button>
+            </form>
+
+            <hr>
+            <a href="/profile">Home</a></div>
+    </div>
+</div>
+</body>
+</html>

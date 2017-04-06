@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+	<title>Music Recommendation System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body { 
+ }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class='page-header'>
+	  <div class='btn-toolbar pull-right'>
+	    <div class='btn-group'>
+	    <a href="/logout" class="btn btn-default"></span>Logout</a>
+	    </div>
+	  </div>
+	  <h2>  Music Recommendation System</h2>
+	</div>
+	<div class="page-header text-center">
+		<h1>Display</h1>
+	</div>
+
+		<table>
+		<% for(var i=0; i < sql.length; i++) { %>
+		   <tr>
+		     <td><%= sql[i].id %></td>
+		     <td><%= sql[i].Id %></td>
+		     <td><%= sql[i].name %></td>
+		     <td><%= sql[i].num_of_songs %></td>
+		     <td><%= sql[i].theme %></td>
+		     <td><%= sql[i].duration %></td>
+		     <td><%= sql[i].tempo %></td>
+		     <td><%= sql[i].year %></td>
+		     <td><%= sql[i].album_id %></td>
+		   </tr>
+		<% } %>
+		</table>
+
+	<p><a href="/profile">Home</a></p>
+
+</div>
+</body>
+</html>

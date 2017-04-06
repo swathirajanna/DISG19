@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+	<title>Music Recommendaion System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body { padding-right:80px;
+padding-left:80px;
+ }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class='page-header'>
+	  <div class='btn-toolbar pull-right'>
+	    <div class='btn-group'>
+	    <a href="/logout" class="btn btn-default"></span>Logout</a>
+	    </div>
+	  </div>
+	  <h2>  Music Recommendation System</h2>
+	</div>
+	<div class="page-header text-center">
+		<h1>User Profile</h1>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="well">
+				<h3><span class="fa fa-user"></span> Local</h3>
+					<p>
+						<strong>username</strong>: <%= user.username %><br>
+						<strong>password</strong>: <%= user.password %>
+					</p>
+			</div>
+		</div>
+
+	</div>
+
+	<p><a href="/profile">Home</a></p>
+
+</div>
+</body>
+</html>

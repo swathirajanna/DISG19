@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+	<title>Music Recommendation System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body { padding-right:80px;
+padding-left:80px;
+ }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class='page-header'>
+	  <div class='btn-toolbar pull-right'>
+	    <div class='btn-group'>
+	    <a href="/logout" class="btn btn-default"></span>Logout</a>
+	    </div>
+	  </div>
+	  <h2>  Music Recommendation System</h2>
+	</div>
+	<div class="page-header text-center">
+		<h1>Search</h1>
+	</div>
+	<% data.forEach(function(item, index){ %>
+	<tr>
+	    <td><a href="/delete/<%= item.id %>">DELETE</a></td>
+	    <td><a href="/edit/<%= item.id %>">EDIT</a></td>
+	    <td><%= item.username %></td>
+	    <td><%= item.name %></td>
+	    <td><%= item.password %></td>
+	</tr>
+	<% }); %>
+
+	<p><a href="/profile">Home</a></p>
+
+</div>
+</body>
+</html>
