@@ -24,16 +24,74 @@ padding-left:80px;
 	<div class="page-header text-center">
 		<h1>Search</h1>
 	</div>
-	<% data.forEach(function(item, index){ %>
-	<tr>
-	    <td><a href="/delete/<%= item.id %>">DELETE</a></td>
-	    <td><a href="/edit/<%= item.id %>">EDIT</a></td>
-	    <td><%= item.username %></td>
-	    <td><%= item.name %></td>
-	    <td><%= item.password %></td>
-	</tr>
-	<% }); %>
+		<table frame = "box">
+		<tr><% if(sql[0].Id) { %>
+		<th>Id</th>
+		<% } %>
 
+		<% if(sql[0].id) { %>
+		<th>id</th>
+		<% } %>
+
+		<% if(sql[0].name) { %>
+		<th>name</th>
+		<% } %>
+
+		<% if(sql[0].num_of_songs) { %>
+		<th>num_of_songs</th>
+		<% } %>
+
+		<% if(sql[0].theme) { %>
+		<th>theme</th>
+		<% } %>
+
+		<% if(sql[0].duration) { %>
+		<th>duration</th>
+		<% } %>
+
+		<% if(sql[0].tempo) { %>
+		<th>tempo</th>
+		<% } %>
+
+		<% if(sql[0].year) { %>
+		<th>year</th>
+		<% } %>
+
+		<% if(sql[0].album_id) { %>
+		<th>album_id</th>
+		<% } %>
+
+		<% if(sql[0].Spotify_url) { %>
+		<th>Spotify_url</th>
+		<% } %>
+		</tr>
+	<form action="/favourites" method="post">
+		<% for(var i=0; i < sql.length; i++) { %>
+		   <tr>
+		     <td><%= sql[i].id %></td>
+		     <td><%= sql[i].Id %></td>
+		     <td><%= sql[i].name %></td>
+		     <td><%= sql[i].num_of_songs %></td>
+		     <td><%= sql[i].theme %></td>
+		     <td><%= sql[i].duration %></td>
+		     <td><%= sql[i].tempo %></td>
+		     <td><%= sql[i].year %></td>
+		     <td><%= sql[i].album_id %></td>
+		     <td><%= sql[i].Spotify_url%></td>
+		 	<% if(sql[i].tempo) { %>
+		 <td>
+		 <input type="checkbox" name="favourite" value=<%= sql[i].id %>></td>
+		<% } %>
+		   </tr>
+		<% } %>
+		<% if(sql[0].tempo) { %>
+		Select One song to add to Favorites
+  <input type="submit" value="Submit">
+		<% } %>
+
+</form>		</table>
+
+	<p><a href="/search">Back</a></p>
 	<p><a href="/profile">Home</a></p>
 
 </div>
