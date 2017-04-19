@@ -47,15 +47,21 @@ padding-left:80px;
             <table>
 			<% for(var i=0;i< items.length; i++) { %>
 		   <tr><td><%=  items[i] %></td>
-		   <select name="tag">
-		   <%=  list[items[i]-1].name %>
-		    </select>
-		   <td><%=  list[items[i]-1].name %></td>
-		   <td>
-		   <form action="/add_songs" method="post">
 		  
+		   <td><%=  list[0].name %></td>
+		   <td>
+
+
+		   <form action="/remove_songs" method="post">
+		  	<select name="tag1">
+			 
+			  <option value=<%= items[i] %>><%= items[i] %></option>
+			  
+			</select>
          	<button type="submit" class="btn btn-warning btn-lg">Delete</button>
-            </form></td></tr>		   
+            </form>
+
+            </td></tr>		   
 			<% } %>
 			</table>
             <hr>

@@ -327,30 +327,31 @@ module.exports = function(app, passport) {
 		});
 
 
-		app.post('/remove_songs', isLoggedIn, function(req, res) {
+	app.post('/remove_songs', isLoggedIn, function(req, res) {
 		// console.log("'"+req.user.username+"'");
-  //       var query = req.body.query,
-		s_id = req.body.tag;
+        var query = req.body.query,
+		s_id = req.body.tag1;
 		// // name = req.body.name;
 		// console.log("'"+temp1+"'");
+		console.log("Here");
 		console.log(s_id);
 		// var item={user_id: req.user.username,playlist_name:temp1}
 		// var item_insert={song_id: s_id}
 
 
-		// mongodb.connect(database_mongo.url,function(err, db){
-		// console.log('Insertion started');
-		// assert.equal(null,err);
+		mongodb.connect(database_mongo.url,function(err, db){
+		console.log('Insertion started');
+		assert.equal(null,err);
 		// // db.collection('Collection_user').update({user_id: "'"+req.user.username+"'", playlist_name: "'"+temp1+"'"}, {$push: {song_id: s_id}}, function(err, result){
 		// // // assert.equal(null,error);
 		// // // console.log('Item inserted');
 		// // // db.close();
 		// // });
 
-		// db.collection('Collection_user').update({user_id: req.user.username, playlist_name: temp1}, {$push: {song_id: s_id}});
+		db.collection('Collection_user').update({user_id: req.user.username, playlist_name: temp1}, {$pull: {song_id: s_id}});
 
-		// res.redirect('/add_songs?tag='+temp1);
-		// });
+		res.redirect('/add_songs?tag='+temp1);
+		});
 		
 		});
 
