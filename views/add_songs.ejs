@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+	<title>Music Recommendation System</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body { padding-right:80px;
+padding-left:80px;
+ }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class='page-header'>
+	  <div class='btn-toolbar pull-right'>
+	    <div class='btn-group'>
+	    <a href="/logout" class="btn btn-default"></span>Logout</a>
+	    </div>
+	  </div>
+	  <h2>  Modify_Playlist </h2>
+	</div>
+	<div class="page-header text-center">
+		<h1><%=query%>
+			
+
+		</h1>
+	</div>
+            <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% } %>
+
+            <form action="/add_songs" method="post">
+                <div class="form-group">
+                    <label>List of Songs</label>
+			 <select name="tag">
+			 <% for(var i=0; i < list.length; i++) { %>
+			  <option value=<%= list[i].id %>><%= list[i].name %></option>
+			  <% } %>
+			</select>
+                </div>
+
+                <button type="submit" class="btn btn-warning btn-lg">Add song</button>
+            </form>
+
+            <table>
+			<% for(var i=0;i< items.length; i++) { %>
+		   <tr><td><%=  items[i] %></td>
+		   <select name="tag">
+		   <%=  list[items[i]-1].name %>
+		    </select>
+		   <td><%=  list[items[i]-1].name %></td>
+		   <td>
+		   <form action="/add_songs" method="post">
+		  
+         	<button type="submit" class="btn btn-warning btn-lg">Delete</button>
+            </form></td></tr>		   
+			<% } %>
+			</table>
+            <hr>
+            <a href="/profile">Home</a></div>
+		
+    </div>
+</div>
+</body>
+</html>

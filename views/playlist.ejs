@@ -28,7 +28,7 @@ padding-left:80px;
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
 
-            <form action="/playlist" method="post">
+            <form action="/create_playlist" method="post">
                 <div class="form-group">
                     <label>playlist_name</label>
                     <input type="text" class="form-control" name="query">
@@ -36,6 +36,19 @@ padding-left:80px;
                 <!-- <a href="/create_playlist">Create_Playlist</a></div> -->
                 <button type="submit" class="btn btn-warning btn-lg">Create_Playlist</button>
             </form>
+
+            <form action="/add_songs" method="get">
+			<div class="form-group">
+             <label>List of Playlists</label>
+			 <select name="tag">
+			 <% for(var i=0; i < items.length; i++) { %>
+			  <option value=<%= items[i].playlist_name %>><%= items[i].playlist_name %></option>
+			  <% } %>
+			</select>
+			<button type="submit" class="btn btn-warning btn-lg">Modify</button>
+             </div>
+             
+             </form>
 
             <hr>
             <a href="/profile">Home</a></div>
@@ -45,10 +58,12 @@ padding-left:80px;
 		   <tr>
 		     <td><%= items[i].user_id %></td>
 		     <td><%= items[i].playlist_id %></td>
-		     <td><%= items[i].playlist_name %></td>
+		     <td><a href="/add_songs"><%= items[i].playlist_name %></a></td>
 		   </tr>
 		<% } %>
 		</table>
+
+		
       
     </div>
 </div>

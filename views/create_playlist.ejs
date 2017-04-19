@@ -28,7 +28,7 @@ padding-left:80px;
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
 
-            <form action="/create_playlist" method="post">
+            <form action="/add_songs" method="post">
                 <div class="form-group">
                     <label>Search song</label>
                     <input type="text" class="form-control" name="query">
@@ -41,7 +41,12 @@ padding-left:80px;
 			  <% } %>
 			</select>
                 </div>
-                <button type="submit" class="btn btn-warning btn-lg">Create</button>
+
+                <button type="submit" class="btn btn-warning btn-lg">Add song</button>
+            </form>
+
+            <form action="/create_playlist" method="post">
+         	<button type="submit" class="btn btn-warning btn-lg">Create</button>
             </form>
 
 

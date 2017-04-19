@@ -12,6 +12,7 @@ var database_mongo = require('./database_mongo'); 			// load the database config
 var assert = require('assert');
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 //////////////RRRRRRRRR////////////////////////////////
+var url = require('url')
 
 
 connection.query('USE ' + dbconfig.database);
@@ -152,24 +153,29 @@ module.exports = function(app, passport) {
 	var temp;
 	///////////////////RRRR/////////////////
 	app.get('/playlist', function(req, res) {
+		 console.log(0);
 		 mongodb.connect(database_mongo.url,function(err, db){
-
+		 	console.log(1);
 		 db.collection('Collection_user', function (err, collection) {
+		 	console.log(2);
          collection.find({user_id: req.user.username}).toArray(function(err, items) {
             if(err) throw err;    
             temp=items;
-            console.log(temp);    
-            res.render('playlist.ejs', { items: temp, message: req.flash('loginMessage') });        
+            
+            console.log("Done");
+            // alert("Done!"); 
+		res.render('playlist.ejs', { items: temp, message: req.flash('loginMessage') }); 
+                 
         });
      	});
 		// db.close();
-		});
-		
+		});	
+		console.log(11)
 	});
 
 
 
-	var temp1;
+	
 
 	app.post('/playlist', isLoggedIn, function(req, res) {
         var q = req.body.query,
@@ -178,7 +184,7 @@ module.exports = function(app, passport) {
 
 		var query = req.body.query,
 		table = req.body.tag;
-		console.log(table);
+		// console.log(table);
 		var getquery = "SELECT * from Track";
 			connection.query(getquery,[query], function(err, rows) {
 				if (err)
@@ -209,19 +215,19 @@ module.exports = function(app, passport) {
 					data.push(rows[i]);
 					}
 				// res.end(JSON.stringify(data));
-				
-				res.render('create_playlist.ejs', { query : q, list: rows, message: req.flash('loginMessage') });
+				// res.render('playlist.ejs');
+				//res.render('create_playlist.ejs', { query : query, list: rows, message: req.flash('loginMessage') });
 			});
 	});
 
 
 	app.post('/create_playlist', isLoggedIn, function(req, res) {
-		console.log(req.user.username);
+		// console.log(req.user.username);
         var query = req.body.query,
 		table = req.body.tag;
 		// name = req.body.name;
-		// console.log(query[1]);
-		var item={user_id: req.user.username,playlist_id: '',playlist_name:temp1}
+		// console.log(query);
+		var item={user_id: req.user.username,playlist_name:query,song_id:[]}
 
 
 		mongodb.connect(database_mongo.url,function(err, db){
@@ -232,11 +238,153 @@ module.exports = function(app, passport) {
 		db.close();
 		});
 		});
-		res.redirect('/playlist');
-		
 
+		// var item1={user_id: req.user.username,playlist_name:temp1} 
+		// mongodb.connect(database_mongo.url,function(err, db){
+		// assert.equal(null,err);
+		// db.collection('Collection_songs').insertOne(item1, function(err, result){
+		// // assert.equal(null,error);
+		// console.log('Item inserted');
+		// db.close();
+		// });
+		// });
+
+		res.redirect('/playlist');
+		// res.render('playlist.ejs');
 	});
 
+
+	var temp1;
+	var temp2;
+
+
+	app.get('/add_songs', isLoggedIn, function(req, res) {
+		var resultArray=[];
+		query=req.query.tag;     //name of playlist
+		temp1=query;
+		// console.log(req);
+		console.log(req.user.username);
+		console.log(temp1);
+
+		 mongodb.connect(database_mongo.url,function(err, db){
+		 var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
+		 cursor.forEach(function(doc,error){
+		 resultArray=(doc['song_id']);
+		 console.log(resultArray)
+		 });
+		});
+
+
+	
+		var getquery = "SELECT * from Track";
+			connection.query(getquery,[query], function(err, rows) {
+				if (err)
+					throw err;
+				var data=[];
+				for(i=0;i<rows.length;i++)
+					{
+					data.push(rows[i]);
+					}
+				// res.end(JSON.stringify(data));
+				// res.render('playlist.ejs');
+				console.log("Done")
+				res.render('add_songs.ejs', { items: resultArray,query : temp1, list: rows, message: req.flash('loginMessage') });
+			});
+		// res.render('profile.ejs', {
+		// 	user : req.user
+		// });
+	});
+
+
+
+
+
+	app.post('/add_songs', isLoggedIn, function(req, res) {
+		console.log("'"+req.user.username+"'");
+        var query = req.body.query,
+		s_id = req.body.tag;
+		// name = req.body.name;
+		console.log("'"+temp1+"'");
+		console.log(s_id);
+		var item={user_id: req.user.username,playlist_name:temp1}
+		var item_insert={song_id: s_id}
+
+
+		mongodb.connect(database_mongo.url,function(err, db){
+		console.log('Insertion started');
+		assert.equal(null,err);
+		// db.collection('Collection_user').update({user_id: "'"+req.user.username+"'", playlist_name: "'"+temp1+"'"}, {$push: {song_id: s_id}}, function(err, result){
+		// // assert.equal(null,error);
+		// // console.log('Item inserted');
+		// // db.close();
+		// });
+
+		db.collection('Collection_user').update({user_id: req.user.username, playlist_name: temp1}, {$push: {song_id: s_id}});
+
+		res.redirect('/add_songs?tag='+temp1);
+		});
+		
+		});
+
+
+		app.post('/remove_songs', isLoggedIn, function(req, res) {
+		// console.log("'"+req.user.username+"'");
+  //       var query = req.body.query,
+		s_id = req.body.tag;
+		// // name = req.body.name;
+		// console.log("'"+temp1+"'");
+		console.log(s_id);
+		// var item={user_id: req.user.username,playlist_name:temp1}
+		// var item_insert={song_id: s_id}
+
+
+		// mongodb.connect(database_mongo.url,function(err, db){
+		// console.log('Insertion started');
+		// assert.equal(null,err);
+		// // db.collection('Collection_user').update({user_id: "'"+req.user.username+"'", playlist_name: "'"+temp1+"'"}, {$push: {song_id: s_id}}, function(err, result){
+		// // // assert.equal(null,error);
+		// // // console.log('Item inserted');
+		// // // db.close();
+		// // });
+
+		// db.collection('Collection_user').update({user_id: req.user.username, playlist_name: temp1}, {$push: {song_id: s_id}});
+
+		// res.redirect('/add_songs?tag='+temp1);
+		// });
+		
+		});
+
+	app.post('/add_songs_update', isLoggedIn, function(req, res) {
+		// console.log(req.user.username);
+        var query = req.body.query,
+		table = req.body.tag;
+		// name = req.body.name;
+		// console.log(query);
+		var item={user_id: req.user.username,playlist_id: '',playlist_name:query}
+
+
+		mongodb.connect(database_mongo.url,function(err, db){
+		assert.equal(null,err);
+		db.collection('Collection_songs').insertOne(item, function(err, result){
+		// assert.equal(null,error);
+		console.log('Item inserted');
+		db.close();
+		});
+		});
+
+		// var item1={user_id: req.user.username,playlist_name:temp1} 
+		// mongodb.connect(database_mongo.url,function(err, db){
+		// assert.equal(null,err);
+		// db.collection('Collection_songs').insertOne(item1, function(err, result){
+		// // assert.equal(null,error);
+		// console.log('Item inserted');
+		// db.close();
+		// });
+		// });
+
+		res.redirect('/playlist');
+		// res.render('playlist.ejs');
+	});
 	/////////RRRR////////
 
 };
