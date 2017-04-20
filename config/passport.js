@@ -95,7 +95,7 @@ module.exports = function(passport) {
 		            return done(err);
 
 		        if (rows.length) {
-                    	return done(null, rows);
+                    	return done(null, rows[0]);
                 	} else {
 		            var newuser  = {
 				name: profile.displayName,
@@ -118,7 +118,7 @@ module.exports = function(passport) {
 	    }));
 
 
-	passport.use(new SpotifyStrategy({
+/*	passport.use(new SpotifyStrategy({
 	    clientID		:  configAuth.spotifyAuth.clientID,
 	    clientSecret	:  configAuth.spotifyAuth.client_secret,
 	    callbackURL		: configAuth.spotifyAuth.callbackURL
@@ -154,6 +154,6 @@ module.exports = function(passport) {
 		});
 	  
 	}));
-
+*/
 };
 
