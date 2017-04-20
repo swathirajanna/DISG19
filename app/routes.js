@@ -14,27 +14,6 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 //////////////RRRRRRRRR////////////////////////////////
 var url = require('url')
 
-var Twitter = require('node-tweet-stream')
-  , t = new Twitter({
-    consumer_key: 'FiYMUZ7adXfqrYtr3ByvInz3y',
-    consumer_secret: 'w3whc6mzUuLXcbx9pKxhKyVAbT5RBuGAFwMlUYqE2xP4gyed5l',
-    token: '541602246-MGz05eKQs11xIh92wzbn63hjDmZ1X5QUhx569z06',
-    token_secret: 'sqUY0cAo9AoNqtgiSLrcSEjGTfxgOlqoCpia1pGRJ0zVQ'
-  })
- 
-t.on('tweet', function (tweet) {
-  console.log('tweet received', tweet)
-})
- 
-t.on('error', function (err) {
-  console.log('Oh no')
-})
- 
-t.track('music')
- 
-// 10 minutes later
-t.untrack('music')
-
 
 connection.query('USE ' + dbconfig.database);
 
@@ -50,21 +29,12 @@ module.exports = function(app, passport) {
 
 	app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
+    	// handle the callback after facebook has authenticated the user
     	app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
             successRedirect : '/profile',
             failureRedirect : '/'
         }));
-
-/*	app.get('/auth/spotify',passport.authenticate('spotify', {scope: ['user-read-email', 'user-read-private'], showDialog: true}),
-	function(req, res){
-	});
-
-	app.get('/auth/spotify/callback',
-	  passport.authenticate('spotify', {
-            successRedirect : '/profile',
-            failureRedirect : '/'
-        })); */
 
 	app.post('/login', passport.authenticate('local-login', {
             successRedirect : '/profile',
@@ -99,6 +69,7 @@ module.exports = function(app, passport) {
 	app.get('/account', isLoggedIn, function(req, res) {
 		res.render('account_settings.ejs', {
 			user : req.user
+
 		});
 	});
 
@@ -197,7 +168,7 @@ module.exports = function(app, passport) {
 		 	console.log(1);
 		 db.collection('Collection_user', function (err, collection) {
 		 	console.log(2);
-         db.collection.find({user_id: req.user.username}).toArray(function(err, items) {
+         collection.find({user_id: req.user.username}).toArray(function(err, items) {
             if(err) throw err;    
             temp=items;
             
