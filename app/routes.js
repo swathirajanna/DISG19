@@ -27,6 +27,24 @@ module.exports = function(app, passport) {
 		res.render('login.ejs', { message: req.flash('loginMessage') });
 	});
 
+	app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+    	app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
+	app.get('/auth/spotify',passport.authenticate('spotify', {scope: ['user-read-email', 'user-read-private'], showDialog: true}),
+	function(req, res){
+	});
+
+	app.get('/auth/spotify/callback',
+	  passport.authenticate('spotify', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+
 	app.post('/login', passport.authenticate('local-login', {
             successRedirect : '/profile',
             failureRedirect : '/login',
