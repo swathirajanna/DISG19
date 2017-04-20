@@ -66,8 +66,21 @@ padding-left:80px;
 			</table>
 			<label>Recommended Songs</label>
 			  <table>
-			<% for(var j=0;j< items1.length; j++) { %>
-		   <tr><td><%=  items1[j] %></td></tr>		   
+			<% for(var j=0;j< items2.length; j++) { %>
+		   <tr><td><%=  items2[j] %></td>
+		   <td><%=  list[items2[j]-1].name %></td>
+		   	 <td>
+	   <form action="/add_songs" method="post">
+		  	<select name="tag">
+			 
+			  <option value=<%= items2[j] %>><%= items2[j] %></option>
+			  
+			</select>
+         	<button type="submit" class="btn btn-warning btn-lg">Add to playlist</button>
+            </form>
+
+            </td>	
+		   </tr>		   
 			<% } %>
 			</table>
 

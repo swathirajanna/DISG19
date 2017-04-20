@@ -270,29 +270,38 @@ module.exports = function(app, passport) {
 	app.get('/add_songs', isLoggedIn, function(req, res) {
 		var resultArray=[];
 		var resultArray1=[];
+		var resultArray2=[];
+		var resultArray3=[];
 		query=req.query.tag;     //name of playlist
 		temp1=query;
 		// console.log(req);
-		console.log(req.user.username);
-		console.log(temp1);
+		// console.log(req.user.username);
+		// console.log(temp1);
 
 		 mongodb.connect(database_mongo.url,function(err, db){
 		 var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
 		 cursor.forEach(function(doc,error){
-		 console.log(doc['song_id']);
+		 // console.log(doc['song_id']);
 		 resultArray=(doc['song_id']);
-		  for(i=0;i<resultArray.length;i++)
-			{
-			var cursor1=(db.collection('Collection_user').find({song_id: resultArray[i],  user_id: { $ne: req.user.username } },{user_id:1, _id:0}));
+		
+			var cursor1=(db.collection('Collection_user').find({song_id: {$in: resultArray},  user_id: { $ne: req.user.username } },{user_id:1, _id:0}));
 			cursor1.forEach(function(doc1,error){
 			resultArray1.push(doc1['user_id']);
-			});
-			}
+			// console.log(resultArray1);
+
+			var cursor2=db.collection('Collection_user').find({user_id: {$in: resultArray1}},{song_id:1, _id:0});
+		 	cursor2.forEach(function(doc,error){
+		 	console.log("inside function");
+		 	
+		 	for(i=0;i<doc['song_id'].length;i++){resultArray2.push(doc['song_id'][i])}
+			console.log(resultArray2);
+	     
 		 });
 		});
+		 });
+		});
+	    
 
-
-	
 		var getquery = "SELECT * from Track";
 			connection.query(getquery,[query], function(err, rows) {
 				if (err)
@@ -304,8 +313,17 @@ module.exports = function(app, passport) {
 					}
 				// res.end(JSON.stringify(data));
 				// res.render('playlist.ejs');
-				console.log("Done")
-				res.render('add_songs.ejs', { items: resultArray, items1: resultArray1, query : temp1, list: rows, message: req.flash('loginMessage') });
+				console.log("Done");
+				
+				resultArray3.push(resultArray2[0]);
+		 		for(k=0;k<resultArray2.length;k++){
+		 			ctr=0;
+			 		for(l=0;l<resultArray3.length;l++){
+			 			if(resultArray3[l]==resultArray2[k]){ctr=1}
+			 		}
+			 		if(ctr==0){resultArray3.push(resultArray2[k])}
+			 	}
+				res.render('add_songs.ejs', { items: resultArray, items1: resultArray1, items2: resultArray3, query : temp1, list: rows, message: req.flash('loginMessage') });
 			});
 		// res.render('profile.ejs', {
 		// 	user : req.user
