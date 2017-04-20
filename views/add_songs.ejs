@@ -48,7 +48,7 @@ padding-left:80px;
 			<% for(var i=0;i< items.length; i++) { %>
 		   <tr><td><%=  items[i] %></td>
 		  
-		   <td><%=  list[0].name %></td>
+		   <td><%=  list[items[i]-1].name %></td>
 		   <td>
 
 
@@ -64,6 +64,13 @@ padding-left:80px;
             </td></tr>		   
 			<% } %>
 			</table>
+			<label>Recommended Songs</label>
+			  <table>
+			<% for(var j=0;j< items1.length; j++) { %>
+		   <tr><td><%=  items1[j] %></td></tr>		   
+			<% } %>
+			</table>
+
             <hr>
             <a href="/profile">Home</a></div>
 		

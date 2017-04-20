@@ -207,7 +207,6 @@ module.exports = function(app, passport) {
 				// res.end(JSON.stringify(data));
 				res.render('create_playlist.ejs', { query : q, list: rows, message: req.flash('loginMessage') });
 			});
-	
 	});
 
 	app.get('/create_playlist', function(req, res) {
@@ -270,6 +269,7 @@ module.exports = function(app, passport) {
 
 	app.get('/add_songs', isLoggedIn, function(req, res) {
 		var resultArray=[];
+		var resultArray1=[];
 		query=req.query.tag;     //name of playlist
 		temp1=query;
 		// console.log(req);
@@ -279,8 +279,15 @@ module.exports = function(app, passport) {
 		 mongodb.connect(database_mongo.url,function(err, db){
 		 var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
 		 cursor.forEach(function(doc,error){
+		 console.log(doc['song_id']);
 		 resultArray=(doc['song_id']);
-		 console.log(resultArray)
+		  for(i=0;i<resultArray.length;i++)
+			{
+			var cursor1=(db.collection('Collection_user').find({song_id: resultArray[i],  user_id: { $ne: req.user.username } },{user_id:1, _id:0}));
+			cursor1.forEach(function(doc1,error){
+			resultArray1.push(doc1['user_id']);
+			});
+			}
 		 });
 		});
 
@@ -298,7 +305,7 @@ module.exports = function(app, passport) {
 				// res.end(JSON.stringify(data));
 				// res.render('playlist.ejs');
 				console.log("Done")
-				res.render('add_songs.ejs', { items: resultArray,query : temp1, list: rows, message: req.flash('loginMessage') });
+				res.render('add_songs.ejs', { items: resultArray, items1: resultArray1, query : temp1, list: rows, message: req.flash('loginMessage') });
 			});
 		// res.render('profile.ejs', {
 		// 	user : req.user
