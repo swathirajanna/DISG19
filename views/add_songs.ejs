@@ -68,7 +68,13 @@ padding-left:80px;
 			  <table>
 			<% for(var j=0;j< items2.length; j++) { %>
 		   <tr><td><%=  items2[j] %></td>
-		   <td><%=  list[items2[j]-1].name %></td>
+		   <td>
+		   <%if (items2[j] == "No recommendations") { %>
+			<% "No recommendations "%>
+			<% } else {%>
+			<%=  list[items2[j]-1].name %>
+			<% } %>
+		   </td>
 		   	 <td>
 	   <form action="/add_songs" method="post">
 		  	<select name="tag">

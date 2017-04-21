@@ -323,6 +323,11 @@ module.exports = function(app, passport) {
 			 		}
 			 		if(ctr==0){resultArray3.push(resultArray2[k])}
 			 	}
+			 console.log(resultArray3[0])
+			 if((resultArray3[0])==undefined){
+			 	console.log("undef");
+			 	resultArray3=["No recommendations"];}
+			 console.log(resultArray3);
 				res.render('add_songs.ejs', { items: resultArray, items1: resultArray1, items2: resultArray3, query : temp1, list: rows, message: req.flash('loginMessage') });
 			});
 		// res.render('profile.ejs', {
