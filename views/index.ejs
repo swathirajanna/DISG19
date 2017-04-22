@@ -25,7 +25,105 @@ padding-left:80px;
             <a href="/signup" class="btn btn-default"></span>Signup</a>
 	    </div>
 	  </div>
-	  <h2>  Music Recommendation System</h2>
+	  <h1>  Music Recommendation System</h1>
 	</div>
+
+
+ 		<div class="form-group">
+		<div class="page-header text-center">
+				<h3>Songs by max Collaborators</h3>
+			</div>
+
+
+                 <table class ="table">
+		<tr><% if(sql[0].Id) { %>
+		<th>Id</th>
+		<% } %>
+
+		<% if(sql[0].id) { %>
+		<th>id</th>
+		<% } %>
+
+		<% if(sql[0].name) { %>
+		<th>name</th>
+		<% } %>
+
+		<% if(sql[0].num_of_songs) { %>
+		<th>num_of_songs</th>
+		<% } %>
+
+		<% if(sql[0].theme) { %>
+		<th>theme</th>
+		<% } %>
+
+		<% if(sql[0].duration) { %>
+		<th>duration</th>
+		<% } %>
+
+		<% if(sql[0].tempo) { %>
+		<th>tempo</th>
+		<% } %>
+
+		<% if(sql[0].year) { %>
+		<th>year</th>
+		<% } %>
+
+		<% if(sql[0].album_id) { %>
+		<th>album_id</th>
+		<% } %>
+
+		<% if(sql[0].Spotify_url) { %>
+		<th>Spotify_url</th>
+		<% } %>
+		</tr>
+	<form action="/" method="post">
+		<% for(var i=0; i < sql.length; i++) { %>
+		   <tr>
+			<% if(sql[0].id) { %>
+		     <td><%= sql[i].id %></td>
+			<% } %><% if(sql[0].Id) { %>
+		     <td><%= sql[i].Id %></td>
+			<% } %><% if(sql[0].name) { %>
+		     <td><%= sql[i].name %></td>
+<% } %><% if(sql[0].num_of_songs) { %>
+		     <td><%= sql[i].num_of_songs %></td>
+<% } %><% if(sql[0].theme) { %>
+		     <td><%= sql[i].theme %></td>
+<% } %><% if(sql[0].duration) { %>
+		     <td><%= sql[i].duration %></td>
+<% } %><% if(sql[0].tempo) { %>
+		     <td><%= sql[i].tempo %></td>
+<% } %><% if(sql[0].year) { %>
+		     <td><%= sql[i].year %></td>
+<% } %><% if(sql[0].album_id) { %>
+		     <td><%= sql[i].album_id %></td>
+<% } %><% if(sql[0].Spotify_url) { %>
+		     <td><a href = "<%= sql[i].Spotify_url%>"><%= sql[i].Spotify_url%></a></td>
+<% } %>
+		   </tr>
+		<% } %>
+	</table>
+                </div>
+
+	<form action="/" method="post">
+                <div class="form-group">
+		<div class="page-header text-center">
+				<h3>Popular songs by decade</h3>
+			</div>
+                    <label>Decade : </label>&emsp;&emsp;
+			 		<select name="decade">
+			  		<option value="1950">1950s</option>
+			  		<option value="1960">1960s</option>
+			  		<option value="1970">1970s</option>
+			  		<option value="1980">1980s</option>
+			  		<option value="1990">1990s</option>
+			  		<option value="2000">2000s</option>
+			  		<option value="2010">2010s</option>
+			</select>
+		&emsp;&emsp;
+                <button style="float: middle;" type="submit" class="btn btn-warning btn-lg">Search</button>
+                </div>
+            </form>
+
 </body>
 </html>

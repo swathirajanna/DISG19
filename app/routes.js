@@ -12,16 +12,45 @@ var database_mongo = require('./database_mongo'); 			// load the database config
 var assert = require('assert');
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 //////////////RRRRRRRRR////////////////////////////////
-var url = require('url')
-
+var url = require('url');
 
 connection.query('USE ' + dbconfig.database);
 
 module.exports = function(app, passport) {
 
 	app.get('/', function(req, res) {
-		res.render('index.ejs'); //guest page
+
+/**		var getquery = "set @var = (select id1 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1); set @var1 = (select id2 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1); select name, Spotify_url from Track where id in (select AT1.track_id from Artist_Track AT1 where AT1.artist_id = @var and AT1.track_id in (select AT2.track_id from Artist_Track AT2 where AT2.artist_id = @var1))"**/
+		var getquery = "select name, Spotify_url from Track where id in (select AT1.track_id from Artist_Track AT1 where AT1.artist_id = (select id1 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1) and AT1.track_id in (select AT2.track_id from Artist_Track AT2 where AT2.artist_id = (select id2 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1)))";
+		connection.query(getquery, function(err, rows) {
+			if (err)
+				throw err;
+			var data=[];
+			for(i=0;i<rows.length;i++){
+							data.push(rows);
+			}
+//console.log(rows);
+			res.render('index.ejs',{sql:rows});
+		});
 	});
+
+
+
+
+	app.post('/', function(req, res) {
+        	var decade = req.body.decade;
+		var getquery = "select name, Spotify_url from Track T1 inner join (select id from (select t.id, count(*) from Track t join Favorites f on t.id = f.track_id where t.year between ? and ? group by t.id order by count(*) desc)p) as T on T1.id = T.id limit 3"
+			connection.query(getquery,[Number(decade), Number(decade)+9], function(err, rows) {
+				if (err)
+					throw err;
+				if(rows.length>0)
+					res.render('index_results.ejs',{sql:rows, message:''});
+				else
+					res.render('index_results.ejs',{sql:rows, message:'None Found'});
+			});
+	});
+
+
 
 	app.get('/login', function(req, res) {
 		res.render('login.ejs', { message: req.flash('loginMessage') });
@@ -109,7 +138,8 @@ module.exports = function(app, passport) {
 	});
 
 	app.post('/favourites', function(req, res){
-        var query = req.body.favourite;		var user = req.user.username;
+        var query = req.body.favourite;		
+	var user = req.user.username;
 		var msg = '';
 
 		var firstquery = "select * from Favorites where user_id = "+user+" and track_id = "+query;
@@ -145,16 +175,11 @@ module.exports = function(app, passport) {
 		table = req.body.tag;
 		console.log(table);
 		var getquery = "SELECT * from "+table+" where name like ?";
-		//if(table = 'Artist')
-		//	getquery = "select name from Track where id in (select top 3 track_id from ( select at.track_id, count(*) from Artist_Track at join Favorites F on at.track_id = F.track_id where artist_id = (Select artist_id from Artist where name = ? group by at.track_id order by count(*)))";
+		if(table == 'Artist')
+			getquery = "select * from Track t where id in (select track_id from (select at.track_id, count(*) from Artist_Track at join Favorites F on at.track_id = F.track_id where artist_id = (Select artist_id from Artist where name like ? group by at.track_id order by count(*))) temp)";
 			connection.query(getquery,[query+"%"], function(err, rows) {
 				if (err)
 					throw err;
-				var data=[];
-				for(i=0;i<rows.length;i++)
-					{
-					data.push(rows[i]);
-					}
 				res.render('search_results.ejs', {
 					sql : rows
 				});

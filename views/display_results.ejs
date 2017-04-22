@@ -24,21 +24,83 @@
 		<h1>Display</h1>
 	</div>
 
-		<table class = "table">
+		<table class ="table">
+		<tr><% if(sql[0].Id) { %>
+		<th>Id</th>
+		<% } %>
+
+		<% if(sql[0].id) { %>
+		<th>id</th>
+		<% } %>
+
+		<% if(sql[0].name) { %>
+		<th>name</th>
+		<% } %>
+
+		<% if(sql[0].num_of_songs) { %>
+		<th>num_of_songs</th>
+		<% } %>
+
+		<% if(sql[0].theme) { %>
+		<th>theme</th>
+		<% } %>
+
+		<% if(sql[0].duration) { %>
+		<th>duration</th>
+		<% } %>
+
+		<% if(sql[0].tempo) { %>
+		<th>tempo</th>
+		<% } %>
+
+		<% if(sql[0].year) { %>
+		<th>year</th>
+		<% } %>
+
+		<% if(sql[0].album_id) { %>
+		<th>album_id</th>
+		<% } %>
+
+		<% if(sql[0].Spotify_url) { %>
+		<th>Spotify_url</th>
+		<% } %>
+		</tr>
+	<form action="/favourites" method="post">
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
+			<% if(sql[0].id) { %>
 		     <td><%= sql[i].id %></td>
+			<% } %><% if(sql[0].Id) { %>
 		     <td><%= sql[i].Id %></td>
+			<% } %><% if(sql[0].name) { %>
 		     <td><%= sql[i].name %></td>
+<% } %><% if(sql[0].num_of_songs) { %>
 		     <td><%= sql[i].num_of_songs %></td>
+<% } %><% if(sql[0].theme) { %>
 		     <td><%= sql[i].theme %></td>
+<% } %><% if(sql[0].duration) { %>
 		     <td><%= sql[i].duration %></td>
+<% } %><% if(sql[0].tempo) { %>
 		     <td><%= sql[i].tempo %></td>
+<% } %><% if(sql[0].year) { %>
 		     <td><%= sql[i].year %></td>
+<% } %><% if(sql[0].album_id) { %>
 		     <td><%= sql[i].album_id %></td>
+<% } %><% if(sql[0].Spotify_url) { %>
+		     <td><a href = "<%= sql[i].Spotify_url%>"><%= sql[i].Spotify_url%></a></td>
+<% } %>
+		 	<% if(sql[i].tempo) { %>
+		 <td>
+		 <input type="checkbox" name="favourite" value=<%= sql[i].id %>></td>
+		<% } %>
 		   </tr>
 		<% } %>
-		</table>
+		<% if(sql[0].tempo) { %>
+		Select One song to add to Favorites
+  <input type="submit" value="Submit">
+		<% } %>
+
+</form>		</table>
 
 	<p><a href="/profile">Home</a></p>
 
