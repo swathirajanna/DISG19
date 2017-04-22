@@ -48,7 +48,7 @@ padding-left:80px;
 			<% for(var i=0;i< items.length; i++) { %>
 		   <tr><td><%=  items[i] %></td>
 		  
-		   <td><%=  list[0].name %></td>
+		   <td><%=  list[items[i]-1].name %></td>
 		   <td>
 
 
@@ -64,6 +64,32 @@ padding-left:80px;
             </td></tr>		   
 			<% } %>
 			</table>
+			<label>Recommended Songs</label>
+			  <table>
+			<% for(var j=0;j< items2.length; j++) { %>
+		   <tr><td><%=  items2[j] %></td>
+		   <td>
+		   <%if (items2[j] == "No recommendations") { %>
+			<% "No recommendations "%>
+			<% } else {%>
+			<%=  list[items2[j]-1].name %>
+			<% } %>
+		   </td>
+		   	 <td>
+	   <form action="/add_songs" method="post">
+		  	<select name="tag">
+			 
+			  <option value=<%= items2[j] %>><%= items2[j] %></option>
+			  
+			</select>
+         	<button type="submit" class="btn btn-warning btn-lg">Add to playlist</button>
+            </form>
+
+            </td>	
+		   </tr>		   
+			<% } %>
+			</table>
+
             <hr>
             <a href="/profile">Home</a></div>
 		
