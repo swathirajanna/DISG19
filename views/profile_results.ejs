@@ -12,7 +12,6 @@ padding-left:80px;
 </head>
 <body>
 <div class="container">
-
 	<div class='page-header'>
 	  <div class='btn-toolbar pull-right'>
 	    <div class='btn-group'>
@@ -21,16 +20,25 @@ padding-left:80px;
 	  </div>
 	  <h2>  Music Recommendation System</h2>
 	</div>
-	<div class="page-header text-center">
-		<h1>Search</h1>
-	</div>	<p align = "right"><a href="/search">Back</a>&emsp;&emsp;<a href="/profile">Home</a></p>
 
+	<p><a href="/account">Account Settings</a>&emsp;&emsp;&emsp;&emsp;<a href="/search">Search</a>&emsp;&emsp;&emsp;&emsp;<a href="/playlist">Playlist</a>
+&emsp;&emsp;&emsp;&emsp;<a href="/favourites">Favorites</a></p>
+
+		<div class="page-header text-center">
+				<h3>Popular songs by decade</h3>
+			</div>
 <% if (message.length > 0) { %>
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
-<% if (message == '') {%>
-		<table class ="table">
-		<tr>
+<% if (message.length <= 0)  { %>
+<table class ="table">
+		<tr><% if(sql[0].Id) { %>
+		<th>Id</th>
+		<% } %>
+
+		<% if(sql[0].id) { %>
+		<th>id</th>
+		<% } %>
 
 		<% if(sql[0].name) { %>
 		<th>name</th>
@@ -64,10 +72,13 @@ padding-left:80px;
 		<th>Spotify_url</th>
 		<% } %>
 		</tr>
-	<form action="/favourites" method="post">
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
-			<% if(sql[0].name) { %>
+			<% if(sql[0].id) { %>
+		     <td><%= sql[i].id %></td>
+			<% } %><% if(sql[0].Id) { %>
+		     <td><%= sql[i].Id %></td>
+			<% } %><% if(sql[0].name) { %>
 		     <td><%= sql[i].name %></td>
 <% } %><% if(sql[0].num_of_songs) { %>
 		     <td><%= sql[i].num_of_songs %></td>
@@ -84,22 +95,12 @@ padding-left:80px;
 <% } %><% if(sql[0].Spotify_url) { %>
 		     <td><a href = "<%= sql[i].Spotify_url%>"><%= sql[i].Spotify_url%></a></td>
 <% } %>
-		 	<% if(sql[i].album_id) { %>
-		 <td>
-		 <input type="checkbox" name="favourite" value=<%= sql[i].id %>></td>
-		<% } %>
 		   </tr>
 		<% } %>
-		<% if(sql[0].album_id) { %>
-		<b>Select One song to add to Favorites</b>&emsp;
-  <input type="submit" value="Submit">
-		<% } %>
-<br/>
-<br/>
-</form>		</table>
 
+	</table>
 
 <% } %>
-</div>
+
 </body>
 </html>

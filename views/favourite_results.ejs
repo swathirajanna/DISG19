@@ -23,37 +23,83 @@ padding-left:80px;
 	</div>
 	<div class="page-header text-center">
 		<h1>Favourites</h1>
-	</div>
+	</div><p align = "left"><a href="/search">Add Favourites</a>&emsp;&emsp;<a href="/profile">Home</a></p>
 
-            <% if (message.length > 0) { %>
+<% if (message.length > 0) { %>
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
-		<table >
-		<tr><th>Id</th>
-		<th>id</th><th>name</th>
-		<th>num_of_songs</th><th>theme</th>
-		<th>duration</th><th>tempo</th>
-		<th>year</th><th>album_id</th>
+<% if (message == '') {%>
+		<table class ="table">
+		<tr>
+
+		<% if(sql[0].name) { %>
+		<th>name</th>
+		<% } %>
+
+		<% if(sql[0].num_of_songs) { %>
+		<th>num_of_songs</th>
+		<% } %>
+
+		<% if(sql[0].theme) { %>
+		<th>theme</th>
+		<% } %>
+
+		<% if(sql[0].duration) { %>
+		<th>duration</th>
+		<% } %>
+
+		<% if(sql[0].tempo) { %>
+		<th>tempo</th>
+		<% } %>
+
+		<% if(sql[0].year) { %>
+		<th>year</th>
+		<% } %>
+
+		<% if(sql[0].album_id) { %>
+		<th>album_id</th>
+		<% } %>
+
+		<% if(sql[0].Spotify_url) { %>
+		<th>Spotify_url</th>
+		<% } %>
 		</tr>
+	<form action="/favourites" method="post">
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
-		     <td><%= sql[i].id %></td>
-		     <td><%= sql[i].Id %></td>
+			<% if(sql[0].name) { %>
 		     <td><%= sql[i].name %></td>
+<% } %><% if(sql[0].num_of_songs) { %>
 		     <td><%= sql[i].num_of_songs %></td>
+<% } %><% if(sql[0].theme) { %>
 		     <td><%= sql[i].theme %></td>
+<% } %><% if(sql[0].duration) { %>
 		     <td><%= sql[i].duration %></td>
+<% } %><% if(sql[0].tempo) { %>
 		     <td><%= sql[i].tempo %></td>
+<% } %><% if(sql[0].year) { %>
 		     <td><%= sql[i].year %></td>
+<% } %><% if(sql[0].album_id) { %>
 		     <td><%= sql[i].album_id %></td>
-		 <td></td>
+<% } %><% if(sql[0].Spotify_url) { %>
+		     <td><a href = "<%= sql[i].Spotify_url%>"><%= sql[i].Spotify_url%></a></td>
+<% } %>
+		 	<% if(sql[i].album_id) { %>
+		 <td>
+		 <input type="checkbox" name="notfavourite" value=<%= sql[i].id %>></td>
+		<% } %>
 		   </tr>
 		<% } %>
-		</table>
+		<% if(sql[0].album_id) { %>
+		<b>Select One song if you wish to remove</b>&emsp;
+  <input type="submit" value="Submit">
+		<% } %>
+<br/>
+<br/>
+</form>		</table>
 
-</form>
-	<p><a href="/search">Back</a></p>
-	<p><a href="/profile">Home</a></p>
+
+<% } %>
 
 </div>
 </body>

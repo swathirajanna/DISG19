@@ -35,13 +35,7 @@ padding-left:80px;
             <% } %>
 <% if (message.length <= 0)  { %>
 <table class ="table">
-		<tr><% if(sql[0].Id) { %>
-		<th>Id</th>
-		<% } %>
-
-		<% if(sql[0].id) { %>
-		<th>id</th>
-		<% } %>
+		<tr>
 
 		<% if(sql[0].name) { %>
 		<th>name</th>
@@ -77,11 +71,7 @@ padding-left:80px;
 		</tr>
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
-			<% if(sql[0].id) { %>
-		     <td><%= sql[i].id %></td>
-			<% } %><% if(sql[0].Id) { %>
-		     <td><%= sql[i].Id %></td>
-			<% } %><% if(sql[0].name) { %>
+			<% if(sql[0].name) { %>
 		     <td><%= sql[i].name %></td>
 <% } %><% if(sql[0].num_of_songs) { %>
 		     <td><%= sql[i].num_of_songs %></td>

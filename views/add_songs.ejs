@@ -19,19 +19,38 @@ padding-left:80px;
 	    <a href="/logout" class="btn btn-default"></span>Logout</a>
 	    </div>
 	  </div>
-	  <h2>  Modify_Playlist </h2>
+	  <h1>  Modify Playlist </h1>
 	</div>
+           <p align="right"> <a href="/playlist">Back</a>&emsp;<a href="/profile">Home</a></p>
 	<div class="page-header text-center">
-		<h1><%=query%>
-			
-
-		</h1>
+		<h2><%=query%>
+		</h2>
 	</div>
             <% if (message.length > 0) { %>
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
 
+
+<form action="/remove_songs" method="post">
+            <table class="table">
+
+			<% for(var i=0;i< items.length; i++) { %>
+		   <tr>	  
+		   <td><%=  list[items[i]-1].name %></td>
+		 <td>
+		 <input type="checkbox" name="tag1" value=<%= items[i] %>></td>
+		</tr>		   
+			<% } %>
+
+			</table>
+<button style="float: right;" type="submit" class="btn btn-warning btn-lg">Delete</button>
+            </form>
+
+</br>
+</br>
+
             <form action="/add_songs" method="post">
+<h3>Add More Songs</h3>
                 <div class="form-group">
                     <label>List of Songs</label>
 			 <select name="tag">
@@ -41,31 +60,13 @@ padding-left:80px;
 			</select>
                 </div>
 
-                <button type="submit" class="btn btn-warning btn-lg">Add song</button>
+<button style="float: right;" type="submit" class="btn btn-warning btn-lg">Add song</button>
             </form>
 
-            <table>
-			<% for(var i=0;i< items.length; i++) { %>
-		   <tr><td><%=  items[i] %></td>
-		  
-		   <td><%=  list[items[i]-1].name %></td>
-		   <td>
-
-
-		   <form action="/remove_songs" method="post">
-		  	<select name="tag1">
-			 
-			  <option value=<%= items[i] %>><%= items[i] %></option>
-			  
-			</select>
-         	<button type="submit" class="btn btn-warning btn-lg">Delete</button>
-            </form>
-
-            </td></tr>		   
-			<% } %>
-			</table>
-			<label>Recommended Songs</label>
-			  <table>
+</br></br>
+			<h3>Recommended Songs</h3>
+	   <form action="/add_songs" method="post">
+			  <table class="table">
 			<% for(var j=0;j< items2.length; j++) { %>
 		   <tr><td><%=  items2[j] %></td>
 		   <td>
@@ -75,23 +76,19 @@ padding-left:80px;
 			<%=  list[items2[j]-1].name %>
 			<% } %>
 		   </td>
-		   	 <td>
-	   <form action="/add_songs" method="post">
-		  	<select name="tag">
-			 
-			  <option value=<%= items2[j] %>><%= items2[j] %></option>
-			  
-			</select>
-         	<button type="submit" class="btn btn-warning btn-lg">Add to playlist</button>
+		   	<td>
+		 <input type="checkbox" name="tag" value=<%= items2[j] %>></td>
+		</tr>		   
+			<% } %>
+
+			</table>
+<button style="float: right;" type="submit" class="btn btn-warning btn-lg">Add to playlist</button>
             </form>
 
-            </td>	
-		   </tr>		   
-			<% } %>
-			</table>
 
-            <hr>
-            <a href="/profile">Home</a></div>
+
+
+            <hr></div>
 		
     </div>
 </div>

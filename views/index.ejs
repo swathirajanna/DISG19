@@ -29,20 +29,35 @@ padding-left:80px;
 	</div>
 
 
+	<form action="/" method="post">
+                <div class="form-group">
+		<div class="page-header text-center">
+				<h3>Popular songs by decade</h3>
+			</div>
+                    <label>Decade : </label>&emsp;&emsp;
+			 		<select name="decade">
+			  		<option value="1950">1950s</option>
+			  		<option value="1960">1960s</option>
+			  		<option value="1970">1970s</option>
+			  		<option value="1980">1980s</option>
+			  		<option value="1990">1990s</option>
+			  		<option value="2000">2000s</option>
+			  		<option value="2010">2010s</option>
+			</select>
+		&emsp;&emsp;
+                <button style="float: middle;" type="submit" class="btn btn-warning btn-lg">Search</button>
+                </div>
+            </form>
+
+
  		<div class="form-group">
 		<div class="page-header text-center">
-				<h3>Songs by max Collaborators</h3>
+				<h3>Top collaborated songs</h3>
 			</div>
 
 
                  <table class ="table">
-		<tr><% if(sql[0].Id) { %>
-		<th>Id</th>
-		<% } %>
-
-		<% if(sql[0].id) { %>
-		<th>id</th>
-		<% } %>
+		<tr>
 
 		<% if(sql[0].name) { %>
 		<th>name</th>
@@ -79,11 +94,7 @@ padding-left:80px;
 	<form action="/" method="post">
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
-			<% if(sql[0].id) { %>
-		     <td><%= sql[i].id %></td>
-			<% } %><% if(sql[0].Id) { %>
-		     <td><%= sql[i].Id %></td>
-			<% } %><% if(sql[0].name) { %>
+			<% if(sql[0].name) { %>
 		     <td><%= sql[i].name %></td>
 <% } %><% if(sql[0].num_of_songs) { %>
 		     <td><%= sql[i].num_of_songs %></td>
@@ -104,26 +115,6 @@ padding-left:80px;
 		<% } %>
 	</table>
                 </div>
-
-	<form action="/" method="post">
-                <div class="form-group">
-		<div class="page-header text-center">
-				<h3>Popular songs by decade</h3>
-			</div>
-                    <label>Decade : </label>&emsp;&emsp;
-			 		<select name="decade">
-			  		<option value="1950">1950s</option>
-			  		<option value="1960">1960s</option>
-			  		<option value="1970">1970s</option>
-			  		<option value="1980">1980s</option>
-			  		<option value="1990">1990s</option>
-			  		<option value="2000">2000s</option>
-			  		<option value="2010">2010s</option>
-			</select>
-		&emsp;&emsp;
-                <button style="float: middle;" type="submit" class="btn btn-warning btn-lg">Search</button>
-                </div>
-            </form>
 
 </body>
 </html>

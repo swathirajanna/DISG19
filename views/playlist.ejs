@@ -28,40 +28,41 @@ padding-left:80px;
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
 
+            <p align = "right"><a href="/profile">Home</a></p>
+       <table class = "table">
+<tr><th>Playlist Name</th></tr>
+		<% for(var i=0; i < items.length; i++) { %>
+		   <tr>
+		     <td><%= items[i].playlist_name %></td>
+		   </tr>
+		<% } %>
+		</table>
+</br>
             <form action="/create_playlist" method="post">
+		<h3>Create a New Playlist</h3>
                 <div class="form-group">
-                    <label>playlist_name</label>
+                    <label align="center">Playlist Name</label>
                     <input type="text" class="form-control" name="query">
                 </div>
                 <!-- <a href="/create_playlist">Create_Playlist</a></div> -->
-                <button type="submit" class="btn btn-warning btn-lg">Create_Playlist</button>
+                <button type="submit" class="btn btn-warning btn-lg">Create Playlist</button>
             </form>
-
+	</br></br>
             <form action="/add_songs" method="get">
+		<h3>Modify Existing Playlist</h3>
 			<div class="form-group">
-             <label>List of Playlists</label>
+             <label align="center">List of Playlists</label>&emsp;&emsp;
 			 <select name="tag">
 			 <% for(var i=0; i < items.length; i++) { %>
 			  <option value=<%= items[i].playlist_name %>><%= items[i].playlist_name %></option>
 			  <% } %>
-			</select>
+			</select>&emsp;&emsp;
 			<button type="submit" class="btn btn-warning btn-lg">Modify</button>
              </div>
              
              </form>
 
-            <hr>
-            <a href="/profile">Home</a></div>
- 
-       <table>
-		<% for(var i=0; i < items.length; i++) { %>
-		   <tr>
-		     <td><%= items[i].user_id %></td>
-		     <td><%= items[i].playlist_id %></td>
-		     <td><a href="/add_songs"><%= items[i].playlist_name %></a></td>
-		   </tr>
-		<% } %>
-		</table>
+            <hr></div>
 
 		
       
