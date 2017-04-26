@@ -56,42 +56,42 @@ padding-left:80px;
 		<tr>
 
 		<% if(sql[0].name) { %>
-		<th>name</th>
+		<th>Name</th>
 		<% } %>
 
 		<% if(sql[0].num_of_songs) { %>
-		<th>num_of_songs</th>
+		<th>Number of Songs</th>
 		<% } %>
 
 		<% if(sql[0].theme) { %>
-		<th>theme</th>
+		<th>Theme</th>
 		<% } %>
 
 		<% if(sql[0].duration) { %>
-		<th>duration</th>
+		<th>Duration</th>
 		<% } %>
 
 		<% if(sql[0].tempo) { %>
-		<th>tempo</th>
+		<th>Tempo</th>
 		<% } %>
 
 		<% if(sql[0].year) { %>
-		<th>year</th>
+		<th>Year</th>
 		<% } %>
 
 		<% if(sql[0].album_id) { %>
-		<th>album_id</th>
+		<th>Album ID</th>
 		<% } %>
 
-		<% if(sql[0].Spotify_url) { %>
-		<th>Spotify_url</th>
-		<% } %>
+
 		</tr>
 	<form action="/profile" method="post">
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
 			<% if(sql[0].name) { %>
-		     <td><%= sql[i].name %></td>
+		     <td><% if(sql[0].Spotify_url) { %>
+		     <a href = "<%= sql[i].Spotify_url%>" target="_blank"><!--<%= sql[i].Spotify_url%>--><img border="0" alt="Spotify" src="img/spotify_logo" width="35" height="35"></a>
+<% } %>&emsp;&emsp;<%= sql[i].name %></td>
 <% } %><% if(sql[0].num_of_songs) { %>
 		     <td><%= sql[i].num_of_songs %></td>
 <% } %><% if(sql[0].theme) { %>
@@ -104,8 +104,6 @@ padding-left:80px;
 		     <td><%= sql[i].year %></td>
 <% } %><% if(sql[0].album_id) { %>
 		     <td><%= sql[i].album_id %></td>
-<% } %><% if(sql[0].Spotify_url) { %>
-		     <td><a href = "<%= sql[i].Spotify_url%>"><%= sql[i].Spotify_url%></a></td>
 <% } %>
 		   </tr>
 		<% } %>

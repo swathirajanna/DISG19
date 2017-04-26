@@ -65,6 +65,6 @@ app.use(flash());
 
 //routes
 require('./app/routes.js')(app, passport);
-
+app.use(express.static(__dirname + '/public'));
 app.listen(port);
 console.log('Server on port ' + port);
