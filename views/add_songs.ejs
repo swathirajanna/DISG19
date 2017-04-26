@@ -74,15 +74,18 @@ padding-left:80px;
 			<% "No recommendations "%>
 			<% } else {%>
 			<%=  list[items2[j]-1].name %>
+			<td>
+		 <input type="checkbox" name="tag" value=<%= items2[j] %>></td>
 			<% } %>
 		   </td>
-		   	<td>
-		 <input type="checkbox" name="tag" value=<%= items2[j] %>></td>
+		   	
 		</tr>		   
 			<% } %>
 
 			</table>
+			<%if (items2[0] != "No recommendations") { %>
 <button style="float: right;" type="submit" class="btn btn-warning btn-lg">Add to playlist</button>
+		<% } %>
             </form>
 
 
