@@ -19,6 +19,7 @@
     "passport-spotify": "^0.1.0",
     "node-tweet-stream": "^1.0.1",
     "mongoose"   : "~3.6.2",
+    "google-search" : "",
     "mongodb" : "~2.1.7",
     "method-override": "~2.1.2"
   },

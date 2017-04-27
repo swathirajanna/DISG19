@@ -9,6 +9,13 @@
 padding-left:80px;
  }
 	</style>
+<script>(function() {
+  var cx = '012401758209465245645:onqhcy0j000'; // Insert your own Custom Search engine ID here
+  var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+  gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
+      '//www.google.com/cse/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+})();</script>
 </head>
 <body>
 <div class="container">
@@ -27,6 +34,7 @@ padding-left:80px;
             <% if (message.length > 0) { %>
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
+<gcse:search></gcse:search>
 
             <form action="/search" method="post">
                 <div class="form-group">

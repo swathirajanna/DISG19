@@ -16,6 +16,13 @@ var url = require('url');
 
 connection.query('USE ' + dbconfig.database);
 
+
+var GoogleSearch = require('google-search');
+var googleSearch = new GoogleSearch({
+  key: 'AIzaSyA4cvZPO2uwiCkk3tjb9DS8SPoyZwYoMzY',
+  cx: '012401758209465245645:onqhcy0j000'
+});
+
 module.exports = function(app, passport) {
 
 	app.get('/', isNotLoggedIn, function(req, res) {
