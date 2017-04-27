@@ -302,7 +302,7 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
      	});
 		// db.close();
 		});	
-		console.log(11)
+		// console.log(11)
 	});
 
 
@@ -402,7 +402,9 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		query=req.query.tag;     //name of playlist
 		temp1=query;
 		// console.log(req);
+		console.log("1");
 		console.log(req.user.username);
+		console.log("2");
 		console.log(temp1);
 
 		 mongodb.connect(database_mongo.url,function(err, db){
@@ -428,8 +430,10 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		});
 		 });
 		});
-	    console.log(resultArray)
-		console.log(resultArray2)
+		 console.log("3");
+	    console.log(resultArray);
+	    console.log("1");
+		console.log(resultArray2);
 
 		var getquery = "SELECT * from Track";
 			connection.query(getquery,[query], function(err, rows) {
