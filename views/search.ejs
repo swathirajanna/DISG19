@@ -15,7 +15,10 @@ padding-left:80px;
   gcse.src = (document.location.protocol == 'https' ? 'https:' : 'http:') +
       '//www.google.com/cse/cse.js?cx=' + cx;
   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
-})();</script>
+})();
+
+
+</script>
 </head>
 <body>
 <div class="container">
@@ -35,7 +38,7 @@ padding-left:80px;
                 <div class="alert alert-danger"><%= message %></div>
             <% } %>
 <gcse:search></gcse:search>
-
+</br>
             <form action="/search" method="post">
                 <div class="form-group">
                     <label>Search term</label>

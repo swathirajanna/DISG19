@@ -68,3 +68,13 @@ require('./app/routes.js')(app, passport);
 app.use(express.static(__dirname + '/public'));
 app.listen(port);
 console.log('Server on port ' + port);
+
+
+var twit = new twitter({
+  consumer_key: 'FiYMUZ7adXfqrYtr3ByvInz3y',
+  consumer_secret: 'w3whc6mzUuLXcbx9pKxhKyVAbT5RBuGAFwMlUYqE2xP4gyed5l',
+  access_token_key: '541602246-MGz05eKQs11xIh92wzbn63hjDmZ1X5QUhx569z06',
+  access_token_secret: 'sqUY0cAo9AoNqtgiSLrcSEjGTfxgOlqoCpia1pGRJ0zVQ'
+});
+
+
