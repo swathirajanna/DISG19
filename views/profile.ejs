@@ -15,6 +15,7 @@ padding-left:80px;
 	<div class='page-header'>
 	  <div class='btn-toolbar pull-right'>
 	    <div class='btn-group'>
+<h4>Welcome <% if(user) { %><%= user.name %><% } %></h4>
 	    <a href="/logout" class="btn btn-default"></span>Logout</a>
 	    </div>
 	  </div>
