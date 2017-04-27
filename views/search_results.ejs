@@ -36,6 +36,14 @@ padding-left:80px;
 		<th>Name</th>
 		<% } %>
 
+		<% if(sql[0].tname) { %>
+		<th>Track</th>
+		<% } %>
+
+		<% if(sql[0].atname) { %>
+		<th>Artist</th>
+		<% } %>
+
 		<% if(sql[0].num_of_songs) { %>
 		<th>Number of Songs</th>
 		<% } %>
@@ -64,6 +72,16 @@ padding-left:80px;
 	<form action="/favourites" method="post">
 		<% for(var i=0; i < sql.length; i++) { %>
 		   <tr>
+
+		   <% if(sql[0].tname) { %>
+		     <td><% if(sql[0].Spotify_url) { %>
+		     <a href = "<%= sql[i].Spotify_url%>" target="_blank"><!--<%= sql[i].Spotify_url%>--><img border="0" alt="Spotify" src="img/spotify_logo" width="35" height="35"></a>
+<% } %>&emsp;&emsp;<%= sql[i].tname %></td>
+<% } %>
+
+<% if(sql[0].atname) { %>
+		     <td><%= sql[i].atname %></td>
+<% } %>
 			<% if(sql[0].name) { %>
 		     <td><% if(sql[0].Spotify_url) { %>
 		     <a href = "<%= sql[i].Spotify_url%>" target="_blank"><!--<%= sql[i].Spotify_url%>--><img border="0" alt="Spotify" src="img/spotify_logo" width="35" height="35"></a>

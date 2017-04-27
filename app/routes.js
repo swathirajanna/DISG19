@@ -237,9 +237,10 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 
 	else if (typeof album !== 'undefined' && album !== null){
 
-		var getquery = "select t.name,at.name from ((select id from Album where name = ?) ab Join (select id,name,album_id from Track) t on t.album_id= ab.id join Artist_Track trat on trat.track_id=t.id Join Artist at on at.id= trat.artist_id) order by t.name";
+		var getquery = "select t.name as tname ,at.name as atname from ((select id from Album where name = ?) ab Join (select id,name,album_id from Track) t on t.album_id= ab.id join Artist_Track trat on trat.track_id=t.id Join Artist at on at.id= trat.artist_id) order by t.name";
 
 			connection.query(getquery,[album], function(err, rows) {
+				console.log(rows);
 				if (err)
 					throw err;
 				if(rows.length>0){
@@ -294,7 +295,7 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
      	});
 		// db.close();
 		});	
-		console.log(11)
+		// console.log(11)
 	});
 
 
@@ -327,7 +328,7 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 
 		var query = req.body.query,
 		table = req.body.tag;
-		console.log(table);
+		
 		var getquery = "SELECT * from Track";
 			connection.query(getquery,[query], function(err, rows) {
 				if (err)
@@ -357,25 +358,30 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		assert.equal(null,err);
 		db.collection('Collection_user').insertOne(item, function(err, result){
 		// assert.equal(null,error);
-		console.log('Item inserted');
+		
 		db.close();
 		});
 		});
 
-		// var item1={user_id: req.user.username,playlist_name:temp1} 
-		// mongodb.connect(database_mongo.url,function(err, db){
-		// assert.equal(null,err);
-		// db.collection('Collection_songs').insertOne(item1, function(err, result){
-		// // assert.equal(null,error);
-		// console.log('Item inserted');
-		// db.close();
-		// });
-		// });
-
 		res.redirect('/playlist');
-		// res.render('playlist.ejs');
+
 	});
 
+
+	app.post('/remove_playlist', isLoggedIn, function(req, res) {
+		// var u_name = req.body.query,
+		p_name = req.body.tag1;
+	
+
+		mongodb.connect(database_mongo.url,function(err, db){
+		assert.equal(null,err);
+		db.collection('Collection_user').update({user_id: req.user.username},  { $unset: { playlist_name: p_name, song_id: "" } });
+		res.redirect('/playlist');
+		});
+
+	});
+
+	
 
 	var temp1;
 	var temp2;
@@ -389,8 +395,10 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		query=req.query.tag;     //name of playlist
 		temp1=query;
 		// console.log(req);
-		// console.log(req.user.username);
-		// console.log(temp1);
+		console.log("1");
+		console.log(req.user.username);
+		console.log("2");
+		console.log(temp1);
 
 		 mongodb.connect(database_mongo.url,function(err, db){
 		 var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
@@ -415,7 +423,10 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		});
 		 });
 		});
-	    
+		console.log("3");
+	    console.log(resultArray);
+	    console.log("4");
+		console.log(resultArray2);
 
 		var getquery = "SELECT * from Track";
 			connection.query(getquery,[query], function(err, rows) {
@@ -435,8 +446,8 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 			 		}
 
 				resultArray3.push(resultArray2[0]);
-				console.log(resultArray)
-				console.log(resultArray2)
+				// console.log(resultArray)
+				// console.log(resultArray2)
 		 		for(k=0;k<resultArray2.length;k++){
 		 			ctr1=0;
 			 		for(l=0;l<resultArray3.length;l++){
@@ -497,7 +508,7 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		// // db.close();
 		// });
 
-		console.log()
+
 		ctr=0;
 		for(i=0;i<resultArray.length;i++){
 			if(resultArray[i]==s_id){
