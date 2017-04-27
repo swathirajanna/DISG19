@@ -3,7 +3,7 @@ var LocalStrategy   = require('passport-local').Strategy;
 var mysql = require('mysql');
 var dbconfig = require('./database');
 var connection = mysql.createConnection(dbconfig.connection);
-
+var sleep = require('sleep');
 
 ///////////////RRRRRRRRR MongoDB connection//////////////////
 var mongoose = require('mongoose'); 					// mongoose for mongodb
@@ -15,13 +15,6 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 var url = require('url');
 
 connection.query('USE ' + dbconfig.database);
-
-
-var GoogleSearch = require('google-search');
-var googleSearch = new GoogleSearch({
-  key: 'AIzaSyA4cvZPO2uwiCkk3tjb9DS8SPoyZwYoMzY',
-  cx: '012401758209465245645:onqhcy0j000'
-});
 
 module.exports = function(app, passport) {
 
