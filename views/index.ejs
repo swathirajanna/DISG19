@@ -51,7 +51,11 @@ padding-left:80px;
                 </div>
             </form>
 
-
+<% var dat = JSON.parse(data) %>
+<% for(var i=0; i < dat.length; i++) { %>
+<%= dat[i]%>
+<% }%>
+<%= data%>
  		<div class="form-group">
 		<div class="page-header text-center">
 				<h3>Top collaborated songs</h3>

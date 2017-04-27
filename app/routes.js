@@ -19,11 +19,20 @@ connection.query('USE ' + dbconfig.database);
 module.exports = function(app, passport) {
 
 	app.get('/', isNotLoggedIn, function(req, res) {
+		var data;
+		var query = "select name from Artist where id =(select id1 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1) or id =(select id2 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1)";
+		connection.query(query, function(err, row) {
+			if (err)
+				throw err;
+			data = JSON.stringify(row);
+		});
+		sleep.sleep(0);
+
 		var getquery = "select name, Spotify_url from Track where id in (select AT1.track_id from Artist_Track AT1 where AT1.artist_id = (select id1 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1) and AT1.track_id in (select AT2.track_id from Artist_Track AT2 where AT2.artist_id = (select id2 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1)))";
 		connection.query(getquery, function(err, rows) {
 			if (err)
 				throw err;
-			res.render('index.ejs',{sql:rows});
+			res.render('index.ejs',{sql:rows, data:data});
 		});
 	});
 
