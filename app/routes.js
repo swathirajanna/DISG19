@@ -430,9 +430,9 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		});
 		 });
 		});
-		 console.log("3");
+		console.log("3");
 	    console.log(resultArray);
-	    console.log("1");
+	    console.log("4");
 		console.log(resultArray2);
 
 		var getquery = "SELECT * from Track";
