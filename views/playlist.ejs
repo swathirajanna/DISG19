@@ -29,20 +29,31 @@ padding-left:80px;
             <% } %>
 
             <p align = "right"><a href="/profile">Home</a></p>
+
+    <form action="/remove_playlist" method="post">
        <table class = "table">
 <tr><th>Playlist Name</th></tr>
 		<% for(var i=0; i < items.length; i++) { %>
 		   <tr>
 		     <td><%= items[i].playlist_name %></td>
+		     <td>
+		 <input type="checkbox" name="tag1" value=<%= items[i].playlist_name %>></td>
 		   </tr>
 		<% } %>
 		</table>
+        <button style="float: right;" type="submit" class="btn btn-warning btn-lg">Delete</button>
+  </form>
+
+
+
+
 </br>
             <form action="/create_playlist" method="post">
 		<h3>Create a New Playlist</h3>
                 <div class="form-group">
                     <label align="center">Playlist Name</label>
                     <input type="text" class="form-control" name="query">
+
                 </div>
                 <!-- <a href="/create_playlist">Create_Playlist</a></div> -->
                 <button type="submit" class="btn btn-warning btn-lg">Create Playlist</button>
