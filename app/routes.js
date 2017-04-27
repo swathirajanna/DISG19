@@ -403,8 +403,8 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		query=req.query.tag;     //name of playlist
 		temp1=query;
 		// console.log(req);
-		// console.log(req.user.username);
-		// console.log(temp1);
+		console.log(req.user.username);
+		console.log(temp1);
 
 		 mongodb.connect(database_mongo.url,function(err, db){
 		 var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
