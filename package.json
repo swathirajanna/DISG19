@@ -19,11 +19,9 @@
     "passport-spotify": "^0.1.0",
     "node-tweet-stream": "^1.0.1",
     "sleep":"",
+    "twit": "",
     "mongoose"   : "~3.6.2",
     "google-search" : "",
-    "twitter" : "",
-    "ntwitter" : "",
-    "sleep" : "",
     "mongodb" : "~2.1.7",
     "method-override": "~2.1.2"
   },

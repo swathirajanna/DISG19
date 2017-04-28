@@ -51,18 +51,22 @@ padding-left:80px;
                 </div>
             </form>
 
+
+
+ 		<div class="form-group">
+		<div  class="page-title green-bg col-xs-8">
+				<h3>Top collaborated songs</h3>
+
+<h4 align="center">Artist :  
 <% var dat = JSON.parse(data) %>
 <% for(var i=0; i < dat.length; i++) { %>
-<%= dat[i]%>
+<%= dat[i].name%>
+<% if(i!=(dat.length -1)){%>
+ and
 <% }%>
-<%= data%>
- 		<div class="form-group">
-		<div class="page-header text-center">
-				<h3>Top collaborated songs</h3>
-			</div>
+<% }%></h4>
 
-
-                 <table class ="table">
+  <table class ="table" class="page-title green-bg col-xs-8">
 		<tr>
 
 		<% if(sql[0].name) { %>
@@ -116,6 +120,14 @@ padding-left:80px;
 		   </tr>
 		<% } %>
 	</table>
+			</div>
+
+<div id="title" class="page-title green-bg col-xs-4">
+<a class="twitter-timeline" href="https://twitter.com/spotify" size="20">Latest Tweets</a>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+</div>
+
+               
                 </div>
 
 </body>
