@@ -288,7 +288,8 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 		    if(err) throw err;    
 		    temp=items;
 		    
-		    //console.log("Done");
+		    if((temp[0])==undefined){
+			 	temp=["No playlist"];}
 		    // alert("Done!"); 
 			res.render('playlist.ejs', { items: temp, message: req.flash('loginMessage') }); 
 		         
@@ -352,22 +353,18 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 
 
 	app.post('/create_playlist', isLoggedIn, function(req, res) {
-		// console.log(req.user.username);
-        var query = req.body.query,
+        var query = req.body.query;
 		table = req.body.tag;
-		// name = req.body.name;
-		// console.log(query);
+		if(query){
 		var item={user_id: req.user.username,playlist_name:query,song_id:[]}
-
-
 		mongodb.connect(database_mongo.url,function(err, db){
 		assert.equal(null,err);
 		db.collection('Collection_user').insertOne(item, function(err, result){
-		// assert.equal(null,error);
-		
 		db.close();
+
 		});
 		});
+	}
 
 		res.redirect('/playlist');
 
@@ -381,7 +378,7 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 
 		mongodb.connect(database_mongo.url,function(err, db){
 		assert.equal(null,err);
-		db.collection('Collection_user').update({user_id: req.user.username},  { $unset: { playlist_name: p_name, song_id: "" } });
+		db.collection('Collection_user').remove({user_id: req.user.username, playlist_name: p_name});
 		res.redirect('/playlist');
 		});
 
@@ -394,98 +391,136 @@ var getquery = "delete from Favorites where user_id = "+user+" and track_id = "+
 
 
 	app.get('/add_songs', isLoggedIn, function(req, res) {
+		ctr=0;
 		var resultArray=[];
 		var resultArray1=[];
 		var resultArray2=[];
 		var resultArray3=[];
+		var rows=[];
 		query=req.query.tag;     //name of playlist
 		temp1=query;
-		// console.log(req);
-		console.log("1");
-		console.log(req.user.username);
-		console.log("2");
-		console.log(temp1);
-
+		
+		
 		 mongodb.connect(database_mongo.url,function(err, db){
+		 console.log(000)
 		 var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
 		 cursor.forEach(function(doc,error){
-		 // console.log(doc['song_id']);
 		 resultArray=(doc['song_id']);
+		 console.log(111) 
+		
+
+		 
+			// var cursor1=(db.collection('Collection_user').find({song_id: {$in: resultArray},  user_id: { $ne: req.user.username } },{user_id:1, _id:0}));
+			// cursor1.forEach(function(doc1,error){
+			// resultArray1.push(doc1['user_id']);
+			// console.log(222)
+				
+			// var counter = 0;
+		
+			// var cursor2=db.collection('Collection_user').find({user_id: {$in: resultArray1}},{song_id:1, _id:0});
+		 // 	cursor2.forEach(function(doc,error){
+		 // 		counter++;
+			// for(i=0;i<doc['song_id'].length;i++){
+			// 	resultArray2.push(doc['song_id'][i])
+			// }
+			// console.log(counter);
+			// console.log(333)
+
+		
 			var cursor1=(db.collection('Collection_user').find({song_id: {$in: resultArray},  user_id: { $ne: req.user.username } },{user_id:1, _id:0}));
-			cursor1.forEach(function(doc1,error){
-			resultArray1.push(doc1['user_id']);
-			// console.log(resultArray1);
-
+			cursor1.toArray().then(function(arr){
+			for(i=0;i<arr.length;i++){
+				for(j=0;j<arr[i]['user_id'].length;j++){
+					resultArray1.push(arr[i]['user_id'][j])
+				}
+			}
+			console.log(222)
+			
+		
 			var cursor2=db.collection('Collection_user').find({user_id: {$in: resultArray1}},{song_id:1, _id:0});
-		 	cursor2.forEach(function(doc,error){
-		 	//console.log("inside function");
-		 	
-		 	for(i=0;i<doc['song_id'].length;i++){
-		 				resultArray2.push(doc['song_id'][i])
-		 	}
-			//console.log(resultArray2);
-	     
-		 });
-		});
-		 });
-		});
-		console.log("3");
-	    console.log(resultArray);
-	    console.log("4");
-		console.log(resultArray2);
+		 	cursor2.toArray().then(function(doc){
+			for(i=0;i<doc.length;i++){
+				for(j=0;j<doc[i]['song_id'].length;j++){
+					ctr=0;
+					for(k=0;k<resultArray2.length;k++){
+						if(resultArray2[k]==doc[i]['song_id'][j]){ctr=1;}
+					}
+					if(ctr==0){resultArray2.push(doc[i]['song_id'][j])}
+					
+				}
+			}
+			console.log(333)
+			// console.log(resultArray2)
+			
+			
 
-		var getquery = "SELECT * from Track";
+		 
+	
+		 var getquery = "SELECT * from Track";
 			connection.query(getquery,[query], function(err, rows) {
+				console.log(444)
 				if (err)
 					throw err;
 				var data=[];
+				
 				for(i=0;i<rows.length;i++)
 					{
 					data.push(rows[i]);
 					}
-				// res.end(JSON.stringify(data));
-				// res.render('playlist.ejs');
-				//console.log("Done");
-				ctr2=0;
-			 		for(m=0;m<resultArray.length;m++){
-			 			if(resultArray[m]==resultArray2[0]){ctr2=1}
-			 		}
 
-				resultArray3.push(resultArray2[0]);
-				// console.log(resultArray)
-				// console.log(resultArray2)
-		 		for(k=0;k<resultArray2.length;k++){
-		 			ctr1=0;
-			 		for(l=0;l<resultArray3.length;l++){
-			 			if(resultArray3[l]==resultArray2[k]){ctr1=1}
+	
+			 i=0;
+			 while(i<resultArray2.length){
+			 	ctr=0;
+			 	for(j=0;j<resultArray.length;j++){
+			 		if(resultArray2[i]==resultArray[j]){
+			 			resultArray2.splice(i,1);
+			 			ctr=1
+			 			break;
 			 		}
-			 		
-			 		if(ctr1==0){resultArray3.push(resultArray2[k])}
-			 	}
-			
-			for(k=0;k<resultArray3.length;k++){
-		 			ctr1=0;
-			 		for(l=0;l<resultArray.length;l++){
-			 			if(resultArray3[k]==resultArray[l]){resultArray3.splice(k, 1);}
-			 		}
-			 		
-			 		// if(ctr1==0){resultArray3.push(resultArray2[k])}
-			 	}
+			 	} 
+			 	if(ctr==0)
+			 	{i++;}
+			 }
+
+
+
+			resultArray3=resultArray2;
+		
 
 			 if((resultArray3[0])==undefined){
-			 	//console.log("undef");
-			 	resultArray3=["No recommendations"];}
-			// console.log(resultArray3);
+			 	resultArray2=["No recommendations"];}
+
+			 if((resultArray[0])==undefined){
+			 	resultArray=["No songs"];}
 			
-				res.render('add_songs.ejs', { items: resultArray, items1: resultArray1, items2: resultArray3, query : temp1, list: rows, message: req.flash('loginMessage') });
+				res.render('add_songs.ejs', { items: resultArray, items1: resultArray1, items2: resultArray2, query : temp1, list: rows, message: req.flash('loginMessage') });
+
+
+			 });
 			});
-		// res.render('profile.ejs', {
-		// 	user : req.user
-		// });
-	});
+			
+			});
+		
+	
+		 });
+		 		 });
+
+		 });
 
 
+// var mongodb.connect=function(database_mongo.url,err,db){
+// 	setTimeout(function(){
+//     var cursor=db.collection('Collection_user').find({user_id: req.user.username, playlist_name: temp1},{song_id:1, _id:0});
+//   },Math.random()1000); 
+// }
 
+
+// var cursor.forEach=function(doc,error){
+// 	setTimeout(function(){
+//     resultArray=(doc['song_id']);
+//   },Math.random()1000); 
+// }
 
 
 	app.post('/add_songs', isLoggedIn, function(req, res) {

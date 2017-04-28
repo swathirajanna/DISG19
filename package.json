@@ -18,6 +18,7 @@
     "passport-facebook": "^1.0.0",
     "passport-spotify": "^0.1.0",
     "node-tweet-stream": "^1.0.1",
+    "sleep":"",
     "mongoose"   : "~3.6.2",
     "google-search" : "",
     "twitter" : "",

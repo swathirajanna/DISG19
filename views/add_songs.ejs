@@ -31,19 +31,28 @@ padding-left:80px;
             <% } %>
 
 
+<h3>Current Songs</h3>
 <form action="/remove_songs" method="post">
             <table class="table">
 
 			<% for(var i=0;i< items.length; i++) { %>
 		   <tr>	  
-		   <td><%=  items[i] %></td>
+		   <td>
+		   <%if (items[i] == "No songs") { %>
+			<% "No songs "%>
+			<% } else {%>
+			<%=  list[items[i]-1].name %>
+		   </td>
 		 <td>
 		 <input type="checkbox" name="tag1" value=<%= items[i] %>></td>
+		 	<% } %>
 		</tr>		   
 			<% } %>
 
 			</table>
-<button style="float: right;" type="submit" class="btn btn-warning btn-lg">Delete</button>
+			<%if (items[0] != "No songs") { %>
+			<button style="float: right;" type="submit" class="btn btn-warning btn-lg">Delete</button>
+			<% } %>
             </form>
 
 </br>
@@ -74,6 +83,7 @@ padding-left:80px;
 			<% "No recommendations "%>
 			<% } else {%>
 			<%=  list[items2[j]-1].name %>
+			</td>
 			<td>
 		 <input type="checkbox" name="tag" value=<%= items2[j] %>></td>
 			<% } %>
