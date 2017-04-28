@@ -12,11 +12,34 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 //////////////RRRRRRRRR////////////////////////////////
 var url = require('url');
 
+var Twit = require('twit')
+
+var T = new Twit({
+    consumer_key: 'FiYMUZ7adXfqrYtr3ByvInz3y',
+    consumer_secret: 'w3whc6mzUuLXcbx9pKxhKyVAbT5RBuGAFwMlUYqE2xP4gyed5l',
+    access_token: '541602246-MGz05eKQs11xIh92wzbn63hjDmZ1X5QUhx569z06',
+    access_token_secret: 'sqUY0cAo9AoNqtgiSLrcSEjGTfxgOlqoCpia1pGRJ0zVQ',
+    timeout_ms: 60*9
+  })
+
+
+var stream = T.stream('statuses/filter', { track: 'music' })
+tweeter = [];
+stream.on('tweet', function (tweet) {
+  tweeter.push(tweet);
+	if(tweeter.length>10){
+		stream.stop();
+}
+})
+
+//console.log(tweeter)
+
 connection.query('USE ' + dbconfig.database);
 
 module.exports = function(app, passport) {
 
 	app.get('/', isNotLoggedIn, function(req, res) {
+
 		var data;
 		var query = "select name from Artist where id =(select id1 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1) or id =(select id2 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1)";
 		connection.query(query, function(err, row) {
@@ -88,6 +111,9 @@ module.exports = function(app, passport) {
 
 	app.get('/profile', isLoggedIn, function(req, res) {
 		var getquery = "select name, Spotify_url from Track where id in (select AT1.track_id from Artist_Track AT1 where AT1.artist_id = (select id1 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1) and AT1.track_id in (select AT2.track_id from Artist_Track AT2 where AT2.artist_id = (select id2 from (select at1.artist_id as id1, at2.artist_id as id2, count(*) from Artist_Track at1 join Artist_Track at2 on at1.track_id=at2.track_id where at1.artist_id != at2.artist_id group by at1.artist_id, at2.artist_id order by count(*) desc) as T limit 1)))";
+
+
+
 		connection.query(getquery, function(err, rows) {
 			if (err)
 				throw err;
